@@ -11,7 +11,7 @@ public class Main {
 
     }
     private static float[] ask_get_triangle_sides(char[] triangle_sides_name){
-        float[]      triangle_sides      = { 0, 0, 0 };
+        float[] triangle_sides = { 0, 0, 0 };
 
         Scanner input_scan = new Scanner(System.in);
 
