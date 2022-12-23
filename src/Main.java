@@ -5,17 +5,17 @@ public class Main {
         final char[] triangle_sides_name = {'a', 'b', 'c'};
         float[] triangle_heights = { 0, 0, 0 };
 
-        triangle_heights = count_triangle_heights(ask_get_triangle_sides(triangle_sides_name));
+        triangle_heights = count_triangle_heights(ask_triangle_sides(triangle_sides_name));
 
         console_output_triangle_heights(triangle_heights, triangle_sides_name);
 
     }
-    private static float[] ask_get_triangle_sides(char[] triangle_sides_name){
+    private static float[] ask_triangle_sides(char[] triangle_sides_name){
         float[] triangle_sides = { 0, 0, 0 };
 
         Scanner input_scan = new Scanner(System.in);
 
-        System.out.println("Введите стороны треугольника:\n");
+        System.out.println("\nВведите стороны треугольника:");
         for (int i = 0; i < 3; i++){
             System.out.printf("%s = ", triangle_sides_name[i]);
             triangle_sides[i] = input_scan.nextFloat();
@@ -38,7 +38,7 @@ public class Main {
     }
 
     private static void console_output_triangle_heights(float[] triangle_heights, char[] triangle_sides_name){
-        System.out.println("Высоты треугольника: ");
+        System.out.println("\nВысоты треугольника: ");
 
         for (int i = 0; i < 3; i++){
             System.out.printf("h(%s) = %f \n", triangle_sides_name[i], triangle_heights[i]);
