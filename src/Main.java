@@ -2,47 +2,51 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        final char[] triangle_sides_name = {'a', 'b', 'c'};
-        float[] triangle_heights = { 0, 0, 0 };
+        float sideALength = getTriangleSideLength("a"),
+              sideBLength = getTriangleSideLength("b"),
+              sideCLength = getTriangleSideLength("c");
 
-        triangle_heights = count_triangle_heights(ask_triangle_sides(triangle_sides_name));
+        checkTriangleValid(sideALength, sideBLength, sideCLength);
 
-        console_output_triangle_heights(triangle_heights, triangle_sides_name);
+        float triangleArea = getTriangleArea(sideALength, sideBLength, sideCLength);
 
-    }
-    private static float[] ask_triangle_sides(char[] triangle_sides_name){
-        float[] triangle_sides = { 0, 0, 0 };
+        float heightToSideALength = getTriangleHeightLength(sideALength, triangleArea),
+              heightToSideBLength = getTriangleHeightLength(sideBLength, triangleArea),
+              heightToSideCLength = getTriangleHeightLength(sideCLength, triangleArea);
 
-        Scanner input_scan = new Scanner(System.in);
-
-        System.out.println("\nВведите стороны треугольника:");
-        for (int i = 0; i < 3; i++){
-            System.out.printf("%s = ", triangle_sides_name[i]);
-            triangle_sides[i] = input_scan.nextFloat();
-        }
-        System.out.println();
-        return triangle_sides;
-    }
-    private static float[] count_triangle_heights(float[] triangle_sides){
-        float[] triangle_heights = { 0, 0, 0 };
-
-        float p = (triangle_sides[0] + triangle_sides[1] + triangle_sides[2]) / 2;
-
-        float universal_count_part = (float) Math.sqrt( p * (p - triangle_sides[0]) * (p - triangle_sides[1]) * (p - triangle_sides[2]));
-
-        for (int i = 0; i < 3; i++){
-            triangle_heights[i] = (2 / triangle_sides[i]) * universal_count_part;
-        }
-
-        return triangle_heights;
+        printTriangleHeight("a", heightToSideALength);
+        printTriangleHeight("b", heightToSideBLength);
+        printTriangleHeight("c", heightToSideCLength);
     }
 
-    private static void console_output_triangle_heights(float[] triangle_heights, char[] triangle_sides_name){
-        System.out.println("\nВысоты треугольника: ");
-
-        for (int i = 0; i < 3; i++){
-            System.out.printf("h(%s) = %f \n", triangle_sides_name[i], triangle_heights[i]);
+    private static float getTriangleSideLength(String sideName) {
+        System.out.printf("Длина стороны %s: ", sideName);
+        Scanner inputScan = new Scanner(System.in);
+        float sideLength = inputScan.nextFloat();
+        if (sideLength <= 0) {
+            throw new IllegalArgumentException("Длина каждой из сторон треугольника больше 0.");
         }
+        return sideLength;
+    }
 
+    private static float getTriangleArea(float sideALength, float sideBLength, float sideCLength) {
+        float semiPerimeter = (sideALength + sideBLength + sideCLength) / 2;
+        return (float) Math.sqrt(semiPerimeter * (semiPerimeter - sideALength) * (semiPerimeter - sideBLength) * (semiPerimeter - sideCLength));
+    }
+
+    private static float getTriangleHeightLength(float sideLength, float triangleArea ){
+        return 2 * triangleArea / sideLength;
+    }
+
+    private static void checkTriangleValid(float sideALength, float sideBLength, float sideCLength) {
+        if (sideALength > (sideBLength + sideCLength) ||
+            sideBLength > (sideCLength + sideALength) ||
+            sideCLength > (sideBLength + sideALength)) {
+            throw new IllegalArgumentException("Длина каждой из сторон треугольника не может быть больше суммы двух других сторон.");
+        }
+    }
+
+    private static void printTriangleHeight(String toSideName, float heightLength){
+        System.out.printf("\nВысота треугольника к стороне %s: %.2f;", toSideName, heightLength);
     }
 }
